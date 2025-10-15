@@ -1,0 +1,28 @@
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import IPython.display as display
+import io
+import base64
+
+# Read the image
+image_path = '/content/Screenshot (251).png'
+img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) # Dilation is typically applied to binary or grayscale images
+
+# Define a kernel for dilation
+kernel = np.ones((5,5), np.uint8)
+
+# Apply dilation
+dilated_img = cv2.dilate(img, kernel, iterations=1)
+
+# Display the original and dilated images
+def display_image(img_array, alt_text):
+    _, data = cv2.imencode('.png', img_array)
+    image = F"data:image/png;base64,{base64.b64encode(data).decode()}"
+    display.display(display.Markdown(F"""![{alt_text}]({image})"""))
+
+print("Original Image (Grayscale):")
+display_image(img, "Original Image (Grayscale)")
+
+print("\nDilated Image:")
+display_image(dilated_img, "Dilated Image")
