@@ -1,0 +1,24 @@
+import cv2
+import matplotlib.pyplot as plt
+import IPython.display as display
+import io
+import base64
+
+# Read the image
+image_path = '/content/Screenshot (249).png'
+img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) # Read image in grayscale for Canny
+
+# Apply Canny edge detector
+edges = cv2.Canny(img, 100, 200) # Adjust threshold values as needed
+
+# Display the original and edge detected images
+def display_image(img_array, alt_text):
+    _, data = cv2.imencode('.png', img_array)
+    image = F"data:image/png;base64,{base64.b64encode(data).decode()}"
+    display.display(display.Markdown(F"""![{alt_text}]({image})"""))
+
+print("Original Image (Grayscale):")
+display_image(img, "Original Image (Grayscale)")
+
+print("\nCanny Edge Detection:")
+display_image(edges, "Canny Edge Detection")
