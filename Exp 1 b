@@ -1,0 +1,24 @@
+import cv2
+import matplotlib.pyplot as plt
+import IPython.display as display
+import io
+import base64
+
+# Read the image
+image_path = '/content/Screenshot (247).png'
+img = cv2.imread(image_path)
+
+# Apply Gaussian blur
+blurred_img = cv2.GaussianBlur(img, (5, 5), 0) # Kernel size (5, 5) and sigmaX=0
+
+# Display the original and blurred images
+def display_image(img_array, alt_text):
+    _, data = cv2.imencode('.png', img_array)
+    image = F"data:image/png;base64,{base64.b64encode(data).decode()}"
+    display.display(display.Markdown(F"""![{alt_text}]({image})"""))
+
+print("Original Image:")
+display_image(img, "Original Image")
+
+print("\nBlurred Image:")
+display_image(blurred_img, "Blurred Image")
