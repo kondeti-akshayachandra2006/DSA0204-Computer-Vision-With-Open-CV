@@ -1,1 +1,27 @@
+import cv2
+import numpy as np
+import IPython.display as display
+import io
+import base64
 
+# Read the image
+image_path = '/content/Screenshot (253).png'
+img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) # Erosion is typically applied to binary or grayscale images
+
+# Define a kernel for erosion
+kernel = np.ones((5,5), np.uint8)
+
+# Apply erosion
+eroded_img = cv2.erode(img, kernel, iterations=1)
+
+# Display the original and eroded images
+def display_image(img_array, alt_text):
+    _, data = cv2.imencode('.png', img_array)
+    image = F"data:image/png;base64,{base64.b64encode(data).decode()}"
+    display.display(display.Markdown(F"""![{alt_text}]({image})"""))
+
+print("Original Image (Grayscale):")
+display_image(img, "Original Image (Grayscale)")
+
+print("\nEroded Image:")
+display_image(eroded_img, "Eroded Image")
