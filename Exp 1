@@ -1,0 +1,25 @@
+import cv2
+import matplotlib.pyplot as plt
+import IPython.display as display
+import io
+import base64
+
+# Read the image
+image_path = '/content/Screenshot (245).png'
+img = cv2.imread(image_path)
+
+# Convert the image to grayscale
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Display the original and grayscale images
+def display_image(img_array, alt_text):
+    _, data = cv2.imencode('.png', img_array)
+    image = F"data:image/png;base64,{base64.b64encode(data).decode()}"
+    display.display(display.Markdown(F"""![{alt_text}]({image})"""))
+
+print("Original Image:")
+display_image(img, "Original Image")
+
+print("\nGrayscale Image:")
+display_image(gray_img, "Grayscale Image")
+
